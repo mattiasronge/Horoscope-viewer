@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <title>Horoscope</title>
+</head>
+
+<body>
+    <header>
+        <h1 id="top">Räkna ut ditt horoskop</h1>
+    </header>
+    <div class="container">
+    <div class="inputDiv">
+        <input placeholder="Ange Personnummer" type="text" maxlength="6" id="angivetNummer">
+        <input type="hidden" id="realID">
+    </div>
+
+    <div class="navBar">
+        <button class="knapp" id="sparaHoroscope">Spara horoskop
+        <button class="knapp" id="uppdateraHoroscope">Uppdatera horoskop
+        <button class="knapp" id="visaHoroskop">Visa sparat horoskop
+        <button class="redknapp" id="raderaHoroscope">Radera horoskop
+    </div>
+
+    <div class="resultatDiv">
+        
+        <div class="content">
+        </div>
+    </div>
+</div>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
