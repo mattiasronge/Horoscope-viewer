@@ -1,52 +1,55 @@
 <?php
-// Headers
+// required headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: PUT");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 session_start(); 
-// Inkludera databas och filer
+// include database and object files
 include_once '../config/database.php';
 include_once '../lib/function.php';
  
-// skapa databas connection
+// get database connection
 $database = new Database();
 $db = $database->getConnection();
  
-// förbered horoskop objekt
+// prepare horoscope object
 $horoscope = new Horoscope($db);
 parse_str(file_get_contents("php://input"), $_PUT);
-// få id
+// get id of horoscope to be edited
 $data = $_PUT;
  
-// set ID 
+// set ID property of horoscope to be edited
 if(
-    !empty($data['name'])
+    !empty($data['ID'])
 ){
 	// set horoscope property values
-	$horoscope->id = $data['id'];
-	$horoscope->name = $data['name'];
-    $date = substr($data['name'], -4, 4);
+	$horoscope->no = $data['no'];
+	$horoscope->ID = $data['ID'];
+    $date = substr($data['ID'], -4, 4);
     $Person = new Person($date);
     
-    $horoscope->description = $Person->horoscope;	 
-	// update 
+    $horoscope->description = $Person->horoscope;
+    $horoscope->dateFrom = $Person->from;
+    $horoscope->dateUntil = $Person->until;
+    $horoscope->horoscopeSign = $Person->horoscopeSign;    	 
+	// update the horoscope
 	if($horoscope->update()){
 	 
 	    // set response code - 200 ok
 	    http_response_code(200);
 	 
-	    // interact with user
+	    // tell the user
 	    echo json_encode(array("message" => "horoscope was updated.","state" =>"good"));
 	}
 	 
-	// Om uppdateringen inte gick lyckat
+	// if unable to update the horoscope, tell the user
 	else{
 	 
 	    // set response code - 503 service unavailable
 
-	    // interact with user
+	    // tell the user
 	    echo json_encode(array("message" => "Unable to update horoscope.","state" =>"503"));
 	}
 }else{

@@ -1,9 +1,10 @@
 
 $(document).ready(function(){
+            
     //Skriver ut horoskopet om det finns sparat i SESSION
     viewHoroscope = function(){
         $.ajax({
-            url:"app/main/read.php",
+            url:"app/main/viewHoroscope.php",
             method: "GET",
             success: function(results){
                 if(results.state == "404"){
@@ -18,7 +19,7 @@ $(document).ready(function(){
                         
                             var description = data[i].description;
                             var split = description.split("#");
-                            str = str + '<div class="items no-border-top"><a href="#"  id="'+data[i].id+'" title="'+data[i].name+'" onclick="javascript:draft('+data[i].id+');">'+ split[0] +'</a>' + split[1] + '</div>';
+                            str = str + '<div class="items no-border-top"><a href="#" id="'+data[i].no+'" title="'+data[i].ID+'" onclick="javascript:draft('+data[i].no+');">'+ split[0] +'</a>' + split[1] + '</div>';
 
                         }
                             $(".content").html(str);
@@ -43,13 +44,14 @@ $(document).ready(function(){
     });
     
     //Sparar horoskopet i SESSION och skriver ut om SESSION är tomt
+    //Om det redan finns ett horoskop sparat i SESSION säger den ifrån
     $("#sparaHoroscope").click(function(){
                 
         $.ajax({
-            url:"app/main/create.php",
+            url:"app/main/addHoroscope.php",
             method: "POST",
             data:{
-                "name": $("#angivetNummer").val()
+                "ID": $("#angivetNummer").val()
             },
             success: function(results){
                 if(results.state == "good"){
@@ -67,11 +69,11 @@ $(document).ready(function(){
     $("#uppdateraHoroscope").click(function(){
                 
         $.ajax({
-            url:"app/main/update.php",
+            url:"app/main/updateHoroscope.php",
             method: "PUT",
             data:{
-                "id": $("#realID").val(),
-                "name": $("#angivetNummer").val(),
+                "no": $("#realID").val(),
+                "ID": $("#angivetNummer").val(),
             },
             success: function(results){
                 if(results.state == "good"){
@@ -90,7 +92,7 @@ $(document).ready(function(){
     $("#raderaHoroscope").click(function(){
                 
         $.ajax({
-            url:"app/main/delete.php",
+            url:"app/main/deleteHoroscope.php",
             method: "DELETE",
                 success: function(results){
                     if(results.state == "good"){
@@ -117,8 +119,8 @@ $(document).ready(function(){
             url:"app/main/session.php",
             method: "POST",
             data:{
-                "id": $("#realID").val(),
-                "name": $("#angivetNummer").val()
+                "no": $("#realID").val(),
+                "ID": $("#angivetNummer").val()
             },
             success: function(results){
             }

@@ -1,13 +1,14 @@
 <?php
 class Database{
-    // Specifiera databas 
+ 
+    // specify your own database credentials
     private $host = "localhost";
     private $db_name = "Horoscope";
     private $username = "root";
     private $password = "";
     public $conn;
  
-    // Databas connection
+    // get the database connection
     public function getConnection(){
  
         $this->conn = null;

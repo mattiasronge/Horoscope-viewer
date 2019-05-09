@@ -6,39 +6,39 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
  
-// Inkludera databas och objektfil
+// include database and object file
 include_once '../config/database.php';
 include_once '../lib/function.php';
 session_start(); 
-// Hämta databasanslutning
+// get database connection
 $database = new Database();
 $db = $database->getConnection();
  
-// Förbered horoskopobjekt
+// prepare horoscope object
 $horoscope = new Horoscope($db);
 if(
     !empty($_SESSION['id'])
 ){ 
-// Ange horoskop-id som ska raderas
-$horoscope->id = $_SESSION["id"];
+	// set horoscope id to be deleted
+	$horoscope->no = $_SESSION["id"];
 	 
-// radera horoskopet
-if($horoscope->delete()){
+	// delete the horoscope
+	if($horoscope->delete()){
 	 
 	    // set response code - 200 ok
 	    http_response_code(200);
 	 
-	    // interact
+	    // tell the user
 	    echo json_encode(array("message" => "horoscope was deleted.","state" =>"good"));
 	}
 	 
-// om det inte går att ta bort horoskopet
-else{
+	// if unable to delete the horoscope
+	else{
 	 
 	    // set response code - 503 service unavailable
 	    // http_response_code(503);
 	 
-	    // interact
+	    // tell the user
 	    echo json_encode(array("message" => "Unable to delete horoscope.","state" =>"503"));
 	}
 }else{

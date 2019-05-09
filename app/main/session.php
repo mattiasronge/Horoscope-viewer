@@ -1,6 +1,6 @@
 <?php
 
 session_start();
-$_SESSION["id"] = $_POST['id'];
+$_SESSION["id"] = $_POST['no'];
 echo $_SESSION["id"];
 ?>
